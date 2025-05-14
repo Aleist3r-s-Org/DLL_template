@@ -8,10 +8,14 @@ if(MSVC)
     add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
 endif()
 
-project(CustomExtensions)
+project(CustomExtensions LANGUAGES CXX)
 
-file(GLOB_RECURSE CustomExtensions-sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp")
+file(GLOB_RECURSE CustomExtensions-sources CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp"
+)
 
 add_library(CustomExtensions SHARED ${CustomExtensions-sources})
-target_include_directories(CustomExtensions PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-source_group(CustomExtensions "${CMAKE_SOURCE_DIR}/src" PREFIX "Dll" FILES ${CustomExtensions-sources})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX "Dll" FILES ${CustomExtensions-sources})
